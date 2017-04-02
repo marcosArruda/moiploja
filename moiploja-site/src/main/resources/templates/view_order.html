@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="layout/mainLayout">
+<head>
+<title>Confirmação do Pedido</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="single-product-area">
+			<div class="zigzag-bottom"></div>
+			<div class="container">
+				<div class="row">
+                        
+					<div class="woocommerce-info col-md-offset-2 col-md-8">
+						<div th:unless="${order}" >
+							<h2>Nenhum pedido encontrado</h2>
+						</div>
+						<div th:if="${order}" >
+							
+							<h2>
+								Número do Pedido : <span th:text="${order.orderNumber}">Number</span>
+							</h2>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Nome</th>
+										<th>Quantidade</th>
+										<th>Custo</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="item : ${order.items}">
+										<td th:text="${item.product.name}">product.name</td>
+										<td th:text="${item.quantity}"></td>
+										<td th:text="${item.price * item.quantity}">price</td>
+									</tr>
+								</tbody>
+								<tfoot>
+                                     <tr class="cart-subtotal">
+                                         <th>Subtotal do Pedido</th>
+                                         <td><span class="amount" th:text="${order.totalAmount}">£15.00</span>
+                                         </td>
+                                     </tr>
+
+                                     <tr class="shipping">
+                                         <th>Envio e Entrega</th>
+                                         <td>Envio Gratuito</td>
+                                     </tr>
+
+                                     <tr class="order-total">
+                                         <th>Total do Pedido</th>
+                                         <td><strong><span class="amount" th:text="${order.totalAmount}">£15.00</span></strong> </td>
+                                     </tr>
+									<tr class="cart-subtotal">
+                                         <th>Status</th>
+                                         <td><span th:text="${order.status}">Status</span>
+                                         </td>
+                                     </tr>
+                                 </tfoot>
+							</table>
+						</div>
+						<a class="add_to_cart_button" href="" th:href="@{'/myAccount'}" >Voltar para a sua Conta</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
