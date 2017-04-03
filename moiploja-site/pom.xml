@@ -57,5 +57,10 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.3</version>
 		</dependency>
+		<dependency>
+			<groupId>br.com.moip</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>2.1.2</version>
+		</dependency>
 	</dependencies>
 </project>
