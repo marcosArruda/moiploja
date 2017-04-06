@@ -21,6 +21,8 @@ public class Payment implements Serializable {
     private String ccNumber;
     private String cvv;
     private BigDecimal amount;
+    @Column(name = "cc_hash", nullable = true, unique = false)
+    private String ccHash;
 
     public Integer getId() {
         return id;
@@ -54,4 +56,11 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
+    public String getCcHash() {
+        return ccHash;
+    }
+
+    public void setCcHash(String ccHash) {
+        this.ccHash = ccHash;
+    }
 }

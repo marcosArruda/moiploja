@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class WebUtils {
     public static final String IMAGES_PREFIX = "/products/images/";
-    public static final String IMAGES_DIR = "/home/marcos/prog-apps/workspaces/workspace-moip/moiploja/moiploja-site/src/main/resources/static/assets/img/products/";
+    //public static final String IMAGES_DIR = "/home/marcos/prog-apps/workspaces/workspace-moip/moiploja/moiploja-site/src/main/resources/static/assets/img/products/";
+    public static final String IMAGES_DIR = "/home/marcos/assets/products/";
     private WebUtils() {
     }
 

@@ -14,48 +14,50 @@ import java.io.Serializable;
 public class OrderDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotEmpty(message = "FirstName is required")
+    @NotEmpty(message = "Nome é obrigatório")
     private String firstName;
-    @NotEmpty(message = "LastName is required")
+    @NotEmpty(message = "Sobrenome é obrigatório")
     private String lastName;
-    @NotEmpty(message = "EmailId is required")
+    @NotEmpty(message = "Email é obrigatório")
     @Email
     private String emailId;
-    @NotEmpty(message = "Phone is required")
+    @NotEmpty(message = "Telefone é obrigatório")
     private String phone;
 
-    @NotEmpty(message = "Address Line1 is required")
+    @NotEmpty(message = "Endereço1 é obrigatório")
     private String addressLine1;
     private String addressLine2;
-    @NotEmpty(message = "City is required")
+    @NotEmpty(message = "Cidade é obrigatório")
     private String city;
-    @NotEmpty(message = "State is required")
+    @NotEmpty(message = "Estado é obrigatório")
     private String state;
-    @NotEmpty(message = "ZipCode is required")
+    @NotEmpty(message = "CEP é obrigatório")
     private String zipCode;
-    @NotEmpty(message = "Country is required")
+    @NotEmpty(message = "País é obrigatório")
     private String country;
 
-    @NotEmpty(message = "FirstName is required")
+    @NotEmpty(message = "Nome é obrigatório")
     private String billingFirstName;
-    @NotEmpty(message = "LastName is required")
+    @NotEmpty(message = "Sobrenome é obrigatório")
     private String billingLastName;
-    @NotEmpty(message = "Address Line1 is required")
+    @NotEmpty(message = "Endereço1 é obrigatório")
     private String billingAddressLine1;
     private String billingAddressLine2;
-    @NotEmpty(message = "City is required")
+    @NotEmpty(message = "Cidade é obrigatório")
     private String billingCity;
-    @NotEmpty(message = "State is required")
+    @NotEmpty(message = "Estado é obrigatório")
     private String billingState;
-    @NotEmpty(message = "ZipCode is required")
+    @NotEmpty(message = "CEP é obrigatório")
     private String billingZipCode;
-    @NotEmpty(message = "Country is required")
+    @NotEmpty(message = "Country é obrigatório")
     private String billingCountry;
 
-    @NotEmpty(message = "Credit Card Number is required")
+    @NotEmpty(message = "Número do Cartão de Crédito é obrigatório")
     private String ccNumber;
-    @NotEmpty(message = "CVV is required")
+    @NotEmpty(message = "CVV é obrigatório")
     private String cvv;
+
+
 
     public String getFirstName() {
         return firstName;
@@ -216,6 +218,4 @@ public class OrderDTO implements Serializable {
     public void setBillingLastName(String billingLastName) {
         this.billingLastName = billingLastName;
     }
-
-
 }

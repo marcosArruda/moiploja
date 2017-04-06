@@ -43,6 +43,12 @@ public class Order implements Serializable {
     @Column(name = "created_on")
     private Date createdOn;
 
+    @Column(nullable = true, unique = false)
+    private String ccHash;
+
+    @Column(nullable = false, unique = false)
+    private boolean cupom;
+
     public Order() {
         this.items = new HashSet<OrderItem>();
         this.status = OrderStatus.NEW;
@@ -123,11 +129,26 @@ public class Order implements Serializable {
 
 
     public BigDecimal getTotalAmount() {
-        BigDecimal amount = new BigDecimal("0.0");
+        BigDecimal amount = BigDecimal.ZERO;
         for (OrderItem item : items) {
             amount = amount.add(item.getSubTotal());
         }
         return amount;
     }
 
+    public String getCcHash() {
+        return ccHash;
+    }
+
+    public void setCcHash(String ccHash) {
+        this.ccHash = ccHash;
+    }
+
+    public boolean isCupom() {
+        return cupom;
+    }
+
+    public void setCupom(boolean cupom) {
+        this.cupom = cupom;
+    }
 }

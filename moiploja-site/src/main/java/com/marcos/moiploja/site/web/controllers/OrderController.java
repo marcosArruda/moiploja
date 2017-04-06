@@ -91,6 +91,7 @@ public class OrderController extends MoiplojaSiteBaseController {
         Payment payment = new Payment();
         payment.setCcNumber(order.getCcNumber());
         payment.setCvv(order.getCvv());
+        //payment.setCcHash(order);
 
         newOrder.setPayment(payment);
         Order savedOrder = orderService.createOrder(newOrder);
