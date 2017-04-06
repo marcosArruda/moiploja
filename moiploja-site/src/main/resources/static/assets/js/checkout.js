@@ -10,16 +10,18 @@ function prepareCCHash(){
 
     if(cc.isValid()){
         $("#ccHash").val(cc.hash());
+        alert("O Hash: " + $("#ccHash").val());
+        return true;
     }else{
-        $("#ccHash").val('');
+        $("#ccHash").val('INVALID');
+        alert("Hash invalido");
         return false; //dont submit the form;
     }
-    return true;
+
 }
 
 $(document).ready(function() {
-  $("#checkoutForm").submit(function(event) {
-    event.preventDefault();
+  $("#place_order").click(function(event) {
     return prepareCCHash();
   });
 });

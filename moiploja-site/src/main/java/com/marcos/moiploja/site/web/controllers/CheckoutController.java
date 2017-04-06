@@ -26,6 +26,7 @@ public class CheckoutController extends MoiplojaSiteBaseController {
     @RequestMapping(value = "/checkout", method = RequestMethod.GET)
     public String checkout(HttpServletRequest request, Model model) {
         OrderDTO order = new OrderDTO();
+        order.setCcNumber("5555666677778884");
         model.addAttribute("order", order);
         Cart cart = getOrCreateCart(request);
         model.addAttribute("cart", cart);
