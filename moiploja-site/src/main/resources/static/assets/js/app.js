@@ -1,11 +1,4 @@
 jQuery(document).ready(function($){
-
-	/*
-	 $("#MyButton").bind("click", function() {
-		  fHardCodedFunction.apply(this, [someValue]);
-	 });
-	 */
-	//$("#cart-item-count").bind("click", updateCartItemCount);
 	updateCartItemCount();
 });
 
@@ -32,16 +25,6 @@ jQuery(document).ready(function($){
 	        data : '{"sku":"'+ sku +'"}"',
 	        complete: function(responseData, status, xhttp){
 	        	updateCartItemCount();
-	        	/*
-	        	$.bootstrapGrowl("Item added to cart", 
-	        					{ type: 'info',
-	        						offset: {
-						    			from: "top",
-						    			amount: 50
-						    		}
-	        					}
-	        	);
-	        	*/
 	        }
 	    }); 
 	}

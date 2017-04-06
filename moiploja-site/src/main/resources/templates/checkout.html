@@ -244,7 +244,7 @@
                                             <p id="payment_expiry_date" class="form-row form-row-wide validate-required woocommerce-validated">
                                                 <label class="" for="shipping_country">Data de Expiração <abbr title="required" class="required">*</abbr></label>
                                                 <div style="display: inline;">
-                                                <select style="width: 25%">
+                                                <select id="expire_year" style="width: 25%">
                                                     <option value="2020">2020</option>
                                                     <option value="2021">2021</option>
                                                     <option value="2022">2022</option>
@@ -255,7 +255,7 @@
                                                     <option value="2027">2027</option>
                                                 </select>
                                                 
-                                                <select style="width: 25%">
+                                                <select id="expire_month" style="width: 25%">
                                                     <option value="1">Jan</option>
                                                     <option value="2">Fev</option>
                                                     <option value="3">Mar</option>
@@ -276,6 +276,18 @@
                                     </div>
                                </div>
 
+                                <div>
+                                    <textarea id="public_key" style="display:none;">-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoBttaXwRoI1Fbcond5mS
+7QOb7X2lykY5hvvDeLJelvFhpeLnS4YDwkrnziM3W00UNH1yiSDU+3JhfHu5G387
+O6uN9rIHXvL+TRzkVfa5iIjG+ap2N0/toPzy5ekpgxBicjtyPHEgoU6dRzdszEF4
+ItimGk5ACx/lMOvctncS5j3uWBaTPwyn0hshmtDwClf6dEZgQvm/dNaIkxHKV+9j
+Mn3ZfK/liT8A3xwaVvRzzuxf09xJTXrAd9v5VQbeWGxwFcW05oJulSFjmJA9Hcmb
+DYHJT+sG2mlZDEruCGAzCVubJwGY1aRlcs9AQc1jIm/l8JwH7le2kpk3QoX+gz0w
+WwIDAQAB
+-----END PUBLIC KEY-----</textarea>
+                                </div>
+
                                 <div id="payment">
                                         
                                      <div class="form-row place-order">
@@ -286,6 +298,14 @@
 
                               </div>
                             </form>
+
+                            <!--
+                            number  : $("#cc_number").val(),
+      cvc     : $("#cc_cvc").val(),
+      expMonth: $("#cc_exp_month").val(),
+      expYear : $("#cc_exp_year").val(),
+      pubKey  : $("#public_key").val()
+                            -->
 
                         </div>                       
                     </div>                    
