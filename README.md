@@ -21,3 +21,11 @@ moiploja> cd jcart-site
 moiploja-site> mvn spring-boot:run
 
 Agora você já pode acessar o site Moiploja(a loja propriamente) no url https://localhost:8443/
+
+TODO:
+- Subir a app na nuvem;
+- Terminar o cc_hash;
+- Terminar a call para o moip;
+- terminar a cupom;
+- terminar o websocket;
+- Mais outras coisas...
