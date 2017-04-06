@@ -46,7 +46,7 @@ public class Order implements Serializable {
     @Column(nullable = true, unique = false)
     private String ccHash;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = true, unique = false)
     private boolean cupom;
 
     public Order() {

@@ -57,6 +57,8 @@ public class OrderDTO implements Serializable {
     @NotEmpty(message = "CVV é obrigatório")
     private String cvv;
 
+    private String ccHash;
+
 
 
     public String getFirstName() {
@@ -217,5 +219,13 @@ public class OrderDTO implements Serializable {
 
     public void setBillingLastName(String billingLastName) {
         this.billingLastName = billingLastName;
+    }
+
+    public String getCcHash() {
+        return ccHash;
+    }
+
+    public void setCcHash(String ccHash) {
+        this.ccHash = ccHash;
     }
 }

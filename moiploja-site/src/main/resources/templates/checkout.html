@@ -68,7 +68,7 @@
                                     </table>
                                 </div>
                                 
-                            <form action="#" th:action="@{/orders}" class="checkout" method="post" th:object="${order}">
+                            <form id="checkoutForm" action="#" th:action="@{/orders}" class="checkout" method="post" th:object="${order}">
 
                                 <div id="customer_details" class="col2-set">
                                     <div class="col-1">
@@ -231,14 +231,14 @@
                                             <p id="cc_number" class="form-row form-row-first validate-required">
                                                 <label class="" for="cc_number">Número do Cartão de Crétido <abbr title="required" class="required">*</abbr>
                                                 </label>
-                                                <input type="text" th:field="*{ccNumber}" class="input-text "/>
+                                                <input id="ccNumber" type="text" th:field="*{ccNumber}" class="input-text "/>
                                                 <p th:if="${#fields.hasErrors('ccNumber')}" th:errors="*{ccNumber}" th:errorclass="text-danger">Cartão de Crédito Inválido</p>
                                             </p>
                                             
                                             <p id="cc_cvv" class="form-row form-row-first validate-required">
                                                 <label class="" for="cc_cvv">CCV <abbr title="required" class="required">*</abbr>
                                                 </label>
-                                                <input type="text" th:field="*{cvv}" class="input-text "/>
+                                                <input id="cvv" type="text" th:field="*{cvv}" class="input-text "/>
                                                 <p th:if="${#fields.hasErrors('cvv')}" th:errors="*{cvv}" th:errorclass="text-danger">CVV Incorreto</p>
                                             </p>
                                             <p id="payment_expiry_date" class="form-row form-row-wide validate-required woocommerce-validated">
@@ -276,6 +276,8 @@
                                     </div>
                                </div>
 
+                                <input id="ccHash" type="hidden" th:field="*{ccHash}"/>
+
                                 <div>
                                     <textarea id="public_key" style="display:none;">-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoBttaXwRoI1Fbcond5mS
@@ -298,15 +300,6 @@ WwIDAQAB
 
                               </div>
                             </form>
-
-                            <!--
-                            number  : $("#cc_number").val(),
-      cvc     : $("#cc_cvc").val(),
-      expMonth: $("#cc_exp_month").val(),
-      expYear : $("#cc_exp_year").val(),
-      pubKey  : $("#public_key").val()
-                            -->
-
                         </div>                       
                     </div>                    
                 </div>
