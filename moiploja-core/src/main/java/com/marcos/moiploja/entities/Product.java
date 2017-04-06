@@ -25,7 +25,7 @@ public class Product implements Serializable {
     private String name;
     private String description;
     @Column(nullable = false)
-    private BigDecimal price = new BigDecimal("0.0");
+    private BigDecimal price = BigDecimal.ZERO;
     private String imageUrl;
     private boolean disabled;
     @Temporal(TemporalType.TIMESTAMP)

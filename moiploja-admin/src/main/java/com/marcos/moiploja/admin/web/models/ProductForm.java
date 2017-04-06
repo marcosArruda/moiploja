@@ -24,7 +24,7 @@ public class ProductForm {
     private String description;
     @NotNull
     @DecimalMin("0.1")
-    private BigDecimal price = new BigDecimal("0.0");
+    private BigDecimal price = BigDecimal.ZERO;
     private String imageUrl;
     private MultipartFile image;
     private boolean disabled;

@@ -82,7 +82,7 @@ public class Cart {
     }
 
     public BigDecimal getTotalAmount() {
-        BigDecimal amount = new BigDecimal("0.0");
+        BigDecimal amount = BigDecimal.ZERO;
         for (LineItem lineItem : items) {
             amount = amount.add(lineItem.getSubTotal());
         }
