@@ -228,4 +228,54 @@ public class OrderDTO implements Serializable {
     public void setCcHash(String ccHash) {
         this.ccHash = ccHash;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder()//
+                .append("OrderDTO [")//
+                .append("firstName=\"")//
+                .append(firstName + "\"")//
+                .append(",lastName=\"")//
+                .append(lastName + "\"")//
+                .append(",emailId=\"")//
+                .append(emailId + "\"")//
+                .append(",phone=\"")//
+                .append(phone + "\"")//
+                .append(",addressLine1=\"")//
+                .append(addressLine1 + "\"")//
+                .append(",addressLine2=\"")//
+                .append(addressLine2 + "\"")//
+                .append(",city=\"")//
+                .append(city + "\"")//
+                .append(",state=\"")//
+                .append(state + "\"")//
+                .append(",zipCode=\"")//
+                .append(zipCode + "\"")//
+                .append(",country=\"")//
+                .append(country + "\"")//
+                .append(",billingFirstName=\"")//
+                .append(billingFirstName + "\"")//
+                .append(",billingLastName=\"")//
+                .append(billingLastName + "\"")//
+                .append(",billingAddressLine1=\"")//
+                .append(billingAddressLine1 + "\"")//
+                .append(",billingAddressLine2=\"")//
+                .append(billingAddressLine2 + "\"")//
+                .append(",billingCity=\"")//
+                .append(billingCity + "\"")//
+                .append(",billingState=\"")//
+                .append(billingState + "\"")//
+                .append(",billingZipCode=\"")//
+                .append(billingZipCode + "\"")//
+                .append(",billingCountry=\"")//
+                .append(billingCountry + "\"")//
+                .append(",ccNumber=\"")//
+                .append(ccNumber + "\"")//
+                .append(",cvv=\"")//
+                .append(cvv + "\"")//
+                .append(",ccHash=\"")//
+                .append(ccHash + "\"")//
+                .append("]");
+        return builder.toString();
+    }
 }

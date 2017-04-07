@@ -81,4 +81,8 @@ public class Customer implements Serializable {
         this.password = password;
     }
 
+    public String getFullname(){
+        return new StringBuilder().append(firstName).append(" ").append(lastName).toString();
+    }
+
 }

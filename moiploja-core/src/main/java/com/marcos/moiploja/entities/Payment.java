@@ -21,7 +21,7 @@ public class Payment implements Serializable {
     private String ccNumber;
     private String cvv;
     private BigDecimal amount;
-    @Column(name = "cc_hash", nullable = true, unique = false)
+    @Column(name = "cc_hash", nullable = true, unique = false, length = 2000)
     private String ccHash;
 
     public Integer getId() {

@@ -43,7 +43,7 @@ public class Order implements Serializable {
     @Column(name = "created_on")
     private Date createdOn;
 
-    @Column(nullable = true, unique = false)
+    @Column(nullable = true, unique = false, length = 2000)
     private String ccHash;
 
     @Column(nullable = true, unique = false)
