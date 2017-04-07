@@ -32,76 +32,22 @@ public class OrderService {
 
     @Autowired
     MoipService moipService;
-
-    @Autowired
-    CustomerService customerService;
-
     @Autowired
     EmailService emailService;
     @Autowired
     OrderRepository orderRepository;
 
     public Order processOrder(OrderDTO order, Cart cart) {
-        Order newOrder = new Order();
-        String email = cart.getCustomer().getEmail();
-        Customer customer = customerService.getCustomerByEmail(email);
-        newOrder.setCustomer(customer);
-        Address address = new Address();
-        address.setAddressLine1(order.getAddressLine1());
-        address.setAddressLine2(order.getAddressLine2());
-        address.setCity(order.getCity());
-        address.setState(order.getState());
-        address.setZipCode(order.getZipCode());
-        address.setCountry(order.getCountry());
+        final Order newOrder = Order.buildOrder(order, cart);
 
-        newOrder.setDeliveryAddress(address);
-
-        Address billingAddress = new Address();
-        billingAddress.setAddressLine1(order.getAddressLine1());
-        billingAddress.setAddressLine2(order.getAddressLine2());
-        billingAddress.setCity(order.getCity());
-        billingAddress.setState(order.getState());
-        billingAddress.setZipCode(order.getZipCode());
-        billingAddress.setCountry(order.getCountry());
-
-        newOrder.setBillingAddress(billingAddress);
-
-        Set<OrderItem> orderItems = new HashSet<OrderItem>();
-        List<LineItem> lineItems = cart.getItems();
-        for (LineItem lineItem : lineItems) {
-            OrderItem item = new OrderItem();
-            item.setProduct(lineItem.getProduct());
-            item.setQuantity(lineItem.getQuantity());
-            item.setPrice(lineItem.getProduct().getPrice());
-            item.setOrder(newOrder);
-            orderItems.add(item);
-        }
-
-        newOrder.setItems(orderItems);
-
-        Payment payment = new Payment();
-        payment.setCcNumber(order.getCcNumber());
-        payment.setCvv(order.getCvv());
-        payment.setCcHash(order.getCcHash());
-        newOrder.setCcHash(order.getCcHash());
-        System.out.println("A HASH É: "+ order.getCcHash());
-
-        newOrder.setPayment(payment);
-        newOrder = createOrder(newOrder);
+        newOrder.setOrderNumber(String.valueOf(System.currentTimeMillis()));
+        orderRepository.save(newOrder);
 
         br.com.moip.resource.Order moipOrder = moipService.createOrder(newOrder);
         br.com.moip.resource.Payment moipPayment = moipService.createPayment(moipOrder, newOrder);
 
         this.sendOrderConfirmationEmail(newOrder);
         return newOrder;
-    }
-
-    public Order createOrder(Order order) {
-        //order.setOrderNumber(UUID.randomUUID().toString());
-        order.setOrderNumber(String.valueOf(System.currentTimeMillis()));
-        Order savedOrder = orderRepository.save(order);
-        logger.info("New order created. Order Number : {}", savedOrder.getOrderNumber());
-        return savedOrder;
     }
 
     public Order getOrder(String orderNumber) {

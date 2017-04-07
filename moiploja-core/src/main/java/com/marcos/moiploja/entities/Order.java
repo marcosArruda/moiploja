@@ -3,11 +3,16 @@
  */
 package com.marcos.moiploja.entities;
 
+import com.marcos.moiploja.entities.dto.Cart;
+import com.marcos.moiploja.entities.dto.LineItem;
+import com.marcos.moiploja.entities.dto.OrderDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -53,6 +58,52 @@ public class Order implements Serializable {
         this.items = new HashSet<OrderItem>();
         this.status = OrderStatus.NEW;
         this.createdOn = new Date();
+    }
+
+    public static Order buildOrder(OrderDTO order, Cart cart){
+        final Order newOrder = new Order();
+        newOrder.setCustomer(cart.getCustomer());
+        Address address = new Address();
+        address.setAddressLine1(order.getAddressLine1());
+        address.setAddressLine2(order.getAddressLine2());
+        address.setCity(order.getCity());
+        address.setState(order.getState());
+        address.setZipCode(order.getZipCode());
+        address.setCountry(order.getCountry());
+
+        newOrder.setDeliveryAddress(address);
+
+        Address billingAddress = new Address();
+        billingAddress.setAddressLine1(order.getAddressLine1());
+        billingAddress.setAddressLine2(order.getAddressLine2());
+        billingAddress.setCity(order.getCity());
+        billingAddress.setState(order.getState());
+        billingAddress.setZipCode(order.getZipCode());
+        billingAddress.setCountry(order.getCountry());
+
+        newOrder.setBillingAddress(billingAddress);
+
+        final Set<OrderItem> orderItems = new HashSet<OrderItem>();
+        List<LineItem> lineItems = cart.getItems();
+        lineItems.forEach((lineItem) -> {
+            OrderItem item = new OrderItem();
+            item.setProduct(lineItem.getProduct());
+            item.setQuantity(lineItem.getQuantity());
+            item.setPrice(lineItem.getProduct().getPrice());
+            item.setOrder(newOrder);
+            orderItems.add(item);
+        });
+
+        newOrder.setItems(orderItems);
+
+        Payment payment = new Payment();
+        payment.setCcNumber(order.getCcNumber());
+        payment.setCvv(order.getCvv());
+        payment.setCcHash(order.getCcHash());
+        newOrder.setCcHash(order.getCcHash());
+        System.out.println("A HASH É: "+ order.getCcHash());
+        newOrder.setPayment(payment);
+        return newOrder;
     }
 
     public Integer getId() {
