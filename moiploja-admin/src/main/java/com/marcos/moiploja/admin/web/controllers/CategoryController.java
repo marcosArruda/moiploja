@@ -3,6 +3,7 @@
  */
 package com.marcos.moiploja.admin.web.controllers;
 
+import com.marcos.moiploja.MoiplojaException;
 import com.marcos.moiploja.admin.security.SecurityUtil;
 import com.marcos.moiploja.admin.web.validators.CategoryValidator;
 import com.marcos.moiploja.catalog.CatalogService;
@@ -12,6 +13,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,7 +64,14 @@ public class CategoryController extends MoiplojaAdminBaseController {
         if (result.hasErrors()) {
             return viewPrefix + "create_category";
         }
-        Category persistedCategory = catalogService.createCategory(category);
+        Category persistedCategory = null;
+        try {
+            persistedCategory = catalogService.createCategory(category);
+        } catch (MoiplojaException e) {
+            logger.error(e);
+            result.addError(new ObjectError("moipErrors", e.getMessage()));
+            return viewPrefix + "create_category";
+        }
         logger.debug("Created new category with id : {} and name : {}", persistedCategory.getId(), persistedCategory.getName());
         redirectAttributes.addFlashAttribute("info", "Category created successfully");
         return "redirect:/categories";
@@ -76,8 +85,11 @@ public class CategoryController extends MoiplojaAdminBaseController {
     }
 
     @RequestMapping(value = "/categories/{id}", method = RequestMethod.POST)
-    public String updateCategory(Category category, Model model, RedirectAttributes redirectAttributes) {
-        Category persistedCategory = catalogService.updateCategory(category);
+    public String updateCategory(Category category, Model model, RedirectAttributes redirectAttributes) throws MoiplojaException {
+        Category persistedCategory = null;
+
+        persistedCategory = catalogService.updateCategory(category);
+
         logger.debug("Updated category with id : {} and name : {}", persistedCategory.getId(), persistedCategory.getName());
         redirectAttributes.addFlashAttribute("info", "Category updated successfully");
         return "redirect:/categories";

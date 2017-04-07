@@ -41,7 +41,7 @@ public class CatalogService {
         return categoryRepository.findOne(id);
     }
 
-    public Category createCategory(Category category) {
+    public Category createCategory(Category category) throws MoiplojaException {
         Category persistedCategory = getCategoryByName(category.getName());
         if (persistedCategory != null) {
             throw new MoiplojaException("Category " + category.getName() + " already exist");
@@ -49,7 +49,7 @@ public class CatalogService {
         return categoryRepository.save(category);
     }
 
-    public Category updateCategory(Category category) {
+    public Category updateCategory(Category category) throws MoiplojaException{
         Category persistedCategory = getCategoryById(category.getId());
         if (persistedCategory == null) {
             throw new MoiplojaException("Category " + category.getId() + " doesn't exist");
@@ -68,7 +68,7 @@ public class CatalogService {
         return productRepository.findBySku(sku);
     }
 
-    public Product createProduct(Product product) {
+    public Product createProduct(Product product) throws MoiplojaException{
         Product persistedProduct = getProductBySku(product.getName());
         if (persistedProduct != null) {
             throw new MoiplojaException("Product SKU " + product.getSku() + " already exist");
@@ -76,7 +76,7 @@ public class CatalogService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Product product) {
+    public Product updateProduct(Product product) throws MoiplojaException{
         Product persistedProduct = getProductById(product.getId());
         if (persistedProduct == null) {
             throw new MoiplojaException("Product " + product.getId() + " doesn't exist");

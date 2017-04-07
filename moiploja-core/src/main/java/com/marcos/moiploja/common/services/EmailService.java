@@ -28,7 +28,7 @@ public class EmailService {
     @Value("${support.email}")
     String supportEmail;
 
-    public void sendEmail(String to, String subject, String content) {
+    public void sendEmail(String to, String subject, String content) throws MoiplojaException {
         try {
             // Prepare message using a Spring helper
             final MimeMessage mimeMessage = this.javaMailSender.createMimeMessage();
