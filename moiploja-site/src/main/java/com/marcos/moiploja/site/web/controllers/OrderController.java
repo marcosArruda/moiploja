@@ -3,19 +3,13 @@
  */
 package com.marcos.moiploja.site.web.controllers;
 
-import br.com.moip.resource.*;
 import com.marcos.moiploja.MoiplojaException;
 import com.marcos.moiploja.common.services.EmailService;
 import com.marcos.moiploja.customers.CustomerService;
-import com.marcos.moiploja.entities.*;
-import com.marcos.moiploja.entities.Customer;
 import com.marcos.moiploja.entities.Order;
-import com.marcos.moiploja.entities.Payment;
+import com.marcos.moiploja.entities.dto.Cart;
+import com.marcos.moiploja.entities.dto.OrderDTO;
 import com.marcos.moiploja.orders.OrderService;
-import com.marcos.moiploja.site.web.models.Cart;
-import com.marcos.moiploja.site.web.models.LineItem;
-import com.marcos.moiploja.site.web.models.OrderDTO;
-import com.marcos.moiploja.site.web.moip.MoipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author Marcos
@@ -36,14 +27,6 @@ public class OrderController extends MoiplojaSiteBaseController {
 
     @Autowired
     protected OrderService orderService;
-
-    @Autowired
-    protected MoipService moipService;
-
-    @Autowired
-    protected EmailService emailService;
-    @Autowired
-    private CustomerService customerService;
 
     @Override
     protected String getHeaderTitle() {
@@ -60,73 +43,10 @@ public class OrderController extends MoiplojaSiteBaseController {
             return "checkout";
         }
 
-        Order newOrder = new Order();
-
-        String email = getCurrentUser().getCustomer().getEmail();
-        Customer customer = customerService.getCustomerByEmail(email);
-        newOrder.setCustomer(customer);
-        Address address = new Address();
-        address.setAddressLine1(order.getAddressLine1());
-        address.setAddressLine2(order.getAddressLine2());
-        address.setCity(order.getCity());
-        address.setState(order.getState());
-        address.setZipCode(order.getZipCode());
-        address.setCountry(order.getCountry());
-
-        newOrder.setDeliveryAddress(address);
-
-        Address billingAddress = new Address();
-        billingAddress.setAddressLine1(order.getAddressLine1());
-        billingAddress.setAddressLine2(order.getAddressLine2());
-        billingAddress.setCity(order.getCity());
-        billingAddress.setState(order.getState());
-        billingAddress.setZipCode(order.getZipCode());
-        billingAddress.setCountry(order.getCountry());
-
-        newOrder.setBillingAddress(billingAddress);
-
-        Set<OrderItem> orderItems = new HashSet<OrderItem>();
-        List<LineItem> lineItems = cart.getItems();
-        for (LineItem lineItem : lineItems) {
-            OrderItem item = new OrderItem();
-            item.setProduct(lineItem.getProduct());
-            item.setQuantity(lineItem.getQuantity());
-            item.setPrice(lineItem.getProduct().getPrice());
-            item.setOrder(newOrder);
-            orderItems.add(item);
-        }
-
-        newOrder.setItems(orderItems);
-
-        Payment payment = new Payment();
-        payment.setCcNumber(order.getCcNumber());
-        payment.setCvv(order.getCvv());
-        payment.setCcHash(order.getCcHash());
-        newOrder.setCcHash(order.getCcHash());
-        System.out.println("A HASH É: "+ order.getCcHash());
-
-        newOrder.setPayment(payment);
-        Order savedOrder = orderService.createOrder(newOrder);
-
-        br.com.moip.resource.Order moipOrder = moipService.createOrder(savedOrder);
-        br.com.moip.resource.Payment moipPayment = moipService.createPayment(moipOrder, savedOrder);
-
-        this.sendOrderConfirmationEmail(savedOrder);
+        Order createdOrder = orderService.processOrder(order, cart);
 
         request.getSession().removeAttribute("CART_KEY");
-
-        return "redirect:orderconfirmation?orderNumber=" + savedOrder.getOrderNumber();
-    }
-
-    protected void sendOrderConfirmationEmail(Order order) {
-        try {
-            emailService.sendEmail(order.getCustomer().getEmail(),
-                    "QuilCartCart - Order Confirmation",
-                    "Your order has been placed successfully.\n"
-                            + "Order Number : " + order.getOrderNumber());
-        } catch (MoiplojaException e) {
-            logger.error(e);
-        }
+        return "redirect:orderconfirmation?orderNumber=" + createdOrder.getOrderNumber();
     }
 
     @RequestMapping(value = "/orderconfirmation", method = RequestMethod.GET)

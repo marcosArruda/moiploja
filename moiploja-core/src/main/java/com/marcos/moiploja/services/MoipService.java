@@ -1,22 +1,10 @@
-package com.marcos.moiploja.site.web.moip;
-
-import java.util.Date;
-import java.util.Set;
+package com.marcos.moiploja.services;
 
 import br.com.moip.API;
 import br.com.moip.Client;
 import br.com.moip.authentication.Authentication;
 import br.com.moip.authentication.BasicAuth;
-import br.com.moip.request.ApiDateRequest;
-import br.com.moip.request.CreditCardRequest;
-import br.com.moip.request.CustomerRequest;
-import br.com.moip.request.FundingInstrumentRequest;
-import br.com.moip.request.HolderRequest;
-import br.com.moip.request.OrderRequest;
-import br.com.moip.request.PaymentRequest;
-import br.com.moip.request.PhoneRequest;
-import br.com.moip.request.ShippingAddressRequest;
-import br.com.moip.request.TaxDocumentRequest;
+import br.com.moip.request.*;
 import br.com.moip.resource.Order;
 import br.com.moip.resource.Payment;
 import com.marcos.moiploja.entities.Address;
@@ -24,6 +12,9 @@ import com.marcos.moiploja.entities.Customer;
 import com.marcos.moiploja.entities.OrderItem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by marcos on 02/04/17.

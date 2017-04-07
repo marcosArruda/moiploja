@@ -5,8 +5,8 @@ package com.marcos.moiploja.site.web.controllers;
 
 import com.marcos.moiploja.catalog.CatalogService;
 import com.marcos.moiploja.entities.Product;
-import com.marcos.moiploja.site.web.models.Cart;
-import com.marcos.moiploja.site.web.models.LineItem;
+import com.marcos.moiploja.entities.dto.Cart;
+import com.marcos.moiploja.entities.dto.LineItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.marcos.moiploja.site.web.models;
+package com.marcos.moiploja.entities.dto;
 
 import com.marcos.moiploja.entities.Address;
 import com.marcos.moiploja.entities.Customer;

@@ -4,8 +4,8 @@
 package com.marcos.moiploja.site.web.controllers;
 
 import com.marcos.moiploja.common.services.MLLogger;
+import com.marcos.moiploja.entities.dto.Cart;
 import com.marcos.moiploja.site.security.AuthenticatedUser;
-import com.marcos.moiploja.site.web.models.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

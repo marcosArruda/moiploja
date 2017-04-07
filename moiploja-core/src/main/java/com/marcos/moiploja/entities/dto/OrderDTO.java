@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.marcos.moiploja.site.web.models;
+package com.marcos.moiploja.entities.dto;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
