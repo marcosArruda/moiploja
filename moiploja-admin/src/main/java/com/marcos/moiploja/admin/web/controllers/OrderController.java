@@ -46,14 +46,14 @@ public class OrderController extends MoiplojaAdminBaseController {
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public String listOrders(Model model) {
-        List<Order> list = orderService.getAllOrders();
+        List<Order> list = orderService.findAll();
         model.addAttribute("orders", list);
         return viewPrefix + "orders";
     }
 
     @RequestMapping(value = "/orders/{orderNumber}", method = RequestMethod.GET)
     public String editOrderForm(@PathVariable String orderNumber, Model model) {
-        Order order = orderService.getOrder(orderNumber);
+        Order order = orderService.findOrder(orderNumber);
         model.addAttribute("order", order);
         return viewPrefix + "edit_order";
     }

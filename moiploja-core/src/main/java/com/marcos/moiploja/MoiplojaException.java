@@ -6,7 +6,7 @@ package com.marcos.moiploja;
 /**
  * @author Marcos
  */
-public class MoiplojaException extends RuntimeException {
+public class MoiplojaException extends Exception {
     private static final long serialVersionUID = 1L;
 
     public MoiplojaException() {

@@ -4,8 +4,6 @@
 package com.marcos.moiploja.site.web.controllers;
 
 import com.marcos.moiploja.MoiplojaException;
-import com.marcos.moiploja.common.services.EmailService;
-import com.marcos.moiploja.customers.CustomerService;
 import com.marcos.moiploja.entities.Order;
 import com.marcos.moiploja.entities.dto.Cart;
 import com.marcos.moiploja.entities.dto.OrderDTO;
@@ -14,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,8 +41,16 @@ public class OrderController extends MoiplojaSiteBaseController {
             model.addAttribute("cart", cart);
             return "checkout";
         }
-
-        Order createdOrder = orderService.processOrder(order, cart);
+        
+        Order createdOrder = null;
+        try {
+            createdOrder = orderService.processOrder(order, cart);
+        } catch (MoiplojaException e) {
+            e.printStackTrace();
+            result.addError(new ObjectError("moipErrors", e.getMessage()));
+            model.addAttribute("cart", cart);
+            return "checkout";
+        }
 
         request.getSession().removeAttribute("CART_KEY");
         return "redirect:orderconfirmation?orderNumber=" + createdOrder.getOrderNumber();
@@ -51,7 +58,7 @@ public class OrderController extends MoiplojaSiteBaseController {
 
     @RequestMapping(value = "/orderconfirmation", method = RequestMethod.GET)
     public String showOrderConfirmation(@RequestParam(value = "orderNumber") String orderNumber, Model model) {
-        Order order = orderService.getOrder(orderNumber);
+        Order order = orderService.findOrder(orderNumber);
         model.addAttribute("order", order);
         return "orderconfirmation";
     }
@@ -59,7 +66,7 @@ public class OrderController extends MoiplojaSiteBaseController {
 
     @RequestMapping(value = "/orders/{orderNumber}", method = RequestMethod.GET)
     public String viewOrder(@PathVariable(value = "orderNumber") String orderNumber, Model model) {
-        Order order = orderService.getOrder(orderNumber);
+        Order order = orderService.findOrder(orderNumber);
         model.addAttribute("order", order);
         return "view_order";
     }

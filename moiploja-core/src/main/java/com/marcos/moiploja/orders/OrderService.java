@@ -3,13 +3,15 @@
  */
 package com.marcos.moiploja.orders;
 
+import br.com.moip.exception.MoipException;
+import br.com.moip.exception.UnauthorizedException;
+import br.com.moip.exception.UnexpectecException;
+import br.com.moip.exception.ValidationException;
 import com.marcos.moiploja.MoiplojaException;
 import com.marcos.moiploja.common.services.EmailService;
 import com.marcos.moiploja.common.services.MLLogger;
-import com.marcos.moiploja.customers.CustomerService;
 import com.marcos.moiploja.entities.*;
 import com.marcos.moiploja.entities.dto.Cart;
-import com.marcos.moiploja.entities.dto.LineItem;
 import com.marcos.moiploja.entities.dto.OrderDTO;
 import com.marcos.moiploja.services.MoipService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Marcos
@@ -37,30 +37,41 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
-    public Order processOrder(OrderDTO order, Cart cart) {
+    public Order processOrder(OrderDTO order, Cart cart) throws MoiplojaException {
         final Order newOrder = Order.buildOrder(order, cart);
 
         newOrder.setOrderNumber(String.valueOf(System.currentTimeMillis()));
         orderRepository.save(newOrder);
 
-        br.com.moip.resource.Order moipOrder = moipService.createOrder(newOrder);
-        br.com.moip.resource.Payment moipPayment = moipService.createPayment(moipOrder, newOrder);
+
+        try {
+            br.com.moip.resource.Order moipOrder = moipService.createOrder(newOrder);
+            br.com.moip.resource.Payment moipPayment = moipService.createPayment(moipOrder, newOrder);
+        }catch (UnauthorizedException unEx){
+            throw new MoiplojaException("Movimentação MOIP não autorizada.", unEx);
+        }catch (ValidationException valEx){
+            throw new MoiplojaException("Dados enviados ao MOIP não validos.", valEx);
+        }catch (UnexpectecException unexEx){
+            throw new MoiplojaException("Erro 500 ao realizar a movimentação no MOIP.", unexEx);
+        }catch (MoipException moipException){
+            throw new MoiplojaException("Excessão genérica MOIP.", moipException);
+        }
 
         this.sendOrderConfirmationEmail(newOrder);
         return newOrder;
     }
 
-    public Order getOrder(String orderNumber) {
+    public Order findOrder(String orderNumber) {
         return orderRepository.findByOrderNumber(orderNumber);
     }
 
-    public List<Order> getAllOrders() {
+    public List<Order> findAll() {
         Sort sort = new Sort(Direction.DESC, "createdOn");
         return orderRepository.findAll(sort);
     }
 
     public Order updateOrder(Order order) {
-        Order o = getOrder(order.getOrderNumber());
+        Order o = findOrder(order.getOrderNumber());
         o.setStatus(order.getStatus());
         Order savedOrder = orderRepository.save(o);
         return savedOrder;
