@@ -38,12 +38,14 @@ public class OrderService {
     OrderRepository orderRepository;
 
     public Order processOrder(OrderDTO order, Cart cart) throws MoiplojaException {
+        logger.info("Trying to process order processOrder()");
         final Order newOrder = Order.buildOrder(order, cart);
 
         newOrder.setOrderNumber(String.valueOf(System.currentTimeMillis()));
         orderRepository.save(newOrder);
 
 
+        //doing MOIP interaction
         try {
             br.com.moip.resource.Order moipOrder = moipService.createOrder(newOrder);
             br.com.moip.resource.Payment moipPayment = moipService.createPayment(moipOrder, newOrder);

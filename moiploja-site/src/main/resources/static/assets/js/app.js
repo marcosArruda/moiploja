@@ -9,7 +9,8 @@ jQuery(document).ready(function($){
 	        type: "GET", 
 	        dataType: "json",
 	        contentType: "application/json",
-	        complete: function(responseData, status, xhttp){ 
+	        complete: function(responseData, status, xhttp){
+	            alert("status: "+ status);
 	        	$('#cart-item-count').text('('+responseData.responseJSON.count+')');
 	        }
 	    });
@@ -24,6 +25,7 @@ jQuery(document).ready(function($){
 	        contentType: "application/json",
 	        data : '{"sku":"'+ sku +'"}"',
 	        complete: function(responseData, status, xhttp){
+	            alert("status: "+ status);
 	        	updateCartItemCount();
 	        }
 	    }); 

@@ -52,14 +52,17 @@ public class CartController extends MoiplojaSiteBaseController {
     @RequestMapping(value = "/cart/items", method = RequestMethod.POST)
     @ResponseBody
     public void addToCart(@RequestBody Product product, HttpServletRequest request) {
+        logger.info("Trying to addToCart()");
         Cart cart = getOrCreateCart(request);
         Product p = catalogService.getProductBySku(product.getSku());
         cart.addItem(p);
+        logger.info("Added to Cart! Leaving addToCart()");
     }
 
     @RequestMapping(value = "/cart/items", method = RequestMethod.PUT)
     @ResponseBody
     public void updateCartItem(@RequestBody LineItem item, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("Updating Cart Item updateCartItem()");
         Cart cart = getOrCreateCart(request);
         if (item.getQuantity() <= 0) {
             String sku = item.getProduct().getSku();

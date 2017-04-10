@@ -1,2 +1,3 @@
 - Implement usage of JS API; - Done
 - Implement Webhooks;
+- Implement JSSock Frontend listener;
