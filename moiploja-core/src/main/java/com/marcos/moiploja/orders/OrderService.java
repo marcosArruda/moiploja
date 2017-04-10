@@ -42,12 +42,13 @@ public class OrderService {
         final Order newOrder = Order.buildOrder(order, cart);
 
         newOrder.setOrderNumber(String.valueOf(System.currentTimeMillis()));
-        orderRepository.save(newOrder);
 
 
         //doing MOIP interaction
         try {
             br.com.moip.resource.Order moipOrder = moipService.createOrder(newOrder);
+            newOrder.setOrderNumber(moipOrder.getId());
+            orderRepository.save(newOrder);
             br.com.moip.resource.Payment moipPayment = moipService.createPayment(moipOrder, newOrder);
         }catch (UnauthorizedException unEx){
             throw new MoiplojaException("Movimentação MOIP não autorizada.", unEx);

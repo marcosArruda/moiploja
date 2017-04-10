@@ -24,6 +24,17 @@ public class Payment implements Serializable {
     @Column(name = "cc_hash", nullable = true, unique = false, length = 2000)
     private String ccHash;
 
+    public Payment(){}
+    public Payment(Integer id, String ccHash){
+        this.id = id;
+        this.ccHash = ccHash;
+    }
+    public Payment(Integer id, String ccHash, BigDecimal amount){
+        this.id = id;
+        this.ccHash = ccHash;
+        this.amount = amount;
+    }
+
     public Integer getId() {
         return id;
     }

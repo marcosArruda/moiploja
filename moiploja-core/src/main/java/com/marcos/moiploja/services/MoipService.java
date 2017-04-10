@@ -10,6 +10,7 @@ import br.com.moip.resource.Payment;
 import com.marcos.moiploja.entities.Address;
 import com.marcos.moiploja.entities.Customer;
 import com.marcos.moiploja.entities.OrderItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,34 +22,32 @@ import java.util.Set;
  */
 @Service
 public class MoipService {
-    @Value("${moip.token:01010101010101010101010101010101}")
-    private static String TOKEN;
+    //:01010101010101010101010101010101
+    @Autowired
+    @Value("${moip.token}")
+    private String TOKEN;
 
-    @Value("${moip.token:ABABABABABABABABABABABABABABABABABABABAB}")
-    private static String KEY;
+    //:ABABABABABABABABABABABABABABABABABABABAB
+    @Autowired
+    @Value("${moip.key}")
+    private String KEY;
 
     private API api;
 
     public MoipService(){
-        createAPI();
     }
 
-    public void printTokenAndKey(){
-        StringBuilder builder = new StringBuilder();
-        builder.append("TOKEN=").append(TOKEN)
-                .append(" ")
-                .append("KEY=").append(KEY);
-        System.out.println(builder.toString());
-    }
+    public Order createOrder(com.marcos.moiploja.entities.Order lojaOrder){
+        if(api == null)
+            createAPI();
 
-    public Order createOrder(com.marcos.moiploja.entities.Order order){
-        OrderRequest orderRequest = new OrderRequest().ownId(order.getId().toString());
-        Customer cust = order.getCustomer();
-        Address deliveryAddress = order.getDeliveryAddress();
-        Set<OrderItem> itens = order.getItems();
+        OrderRequest orderRequest = new OrderRequest().ownId(lojaOrder.getId().toString());
+        Customer cust = lojaOrder.getCustomer();
+        Address deliveryAddress = lojaOrder.getDeliveryAddress();
+        Set<OrderItem> itens = lojaOrder.getItems();
 
         itens.forEach((it)->orderRequest.addItem(it.getProduct().getName(),
-                it.getQuantity(), "Descricao", it.getPrice().intValue()));
+                it.getQuantity(), "Descricao", it.getPrice().movePointRight(2).intValue()));
 
         return api.order().create(orderRequest.customer(new CustomerRequest()
                 .ownId(cust.getFirstName())
@@ -71,6 +70,9 @@ public class MoipService {
     }
 
     public Payment createPayment(Order moipOrder, com.marcos.moiploja.entities.Order lojaOrder){
+        if(api == null)
+            createAPI();
+
         com.marcos.moiploja.entities.Payment lojaPayment = lojaOrder.getPayment();
         Customer cust = lojaOrder.getCustomer();
         return api.payment().create(
@@ -84,7 +86,7 @@ public class MoipService {
                                                         .hash(lojaPayment.getCcHash())
                                                         .holder(
                                                                 new HolderRequest()
-                                                                        .fullname(lojaOrder.getCustomer().getFullname())
+                                                                        .fullname(cust.getFullname())
                                                                         .birthdate("1988-10-10")
                                                                         .phone(new PhoneRequest().setAreaCode("11").setNumber(cust.getPhone()))
                                                                         .taxDocument(TaxDocumentRequest.cpf("22222222222"))
@@ -95,6 +97,7 @@ public class MoipService {
     }
 
     private void createAPI(){
+        //TODO: Extract to Bean
         Authentication auth = new BasicAuth(TOKEN, KEY);
         Client client = new Client(Client.SANDBOX, auth);
         api = new API(client);

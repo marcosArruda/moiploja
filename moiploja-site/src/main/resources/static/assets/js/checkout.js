@@ -9,10 +9,8 @@ function prepareCCHash(){
         });
 
     if(cc.isValid()){
-        $("#ccNumber").val("123");
-        $("#cvv").val("123");
         $("#ccHash").val(cc.hash());
-        //alert("O Hash: " + $("#ccHash").val());
+        alert("O Hash: " + $("#ccHash").val());
         return true;
     }else{
         $("#ccHash").val('INVALID');

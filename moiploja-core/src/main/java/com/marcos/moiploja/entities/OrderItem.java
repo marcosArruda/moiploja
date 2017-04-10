@@ -26,6 +26,22 @@ public class OrderItem implements Serializable {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    public OrderItem(){}
+
+    public OrderItem(Integer id, Product product, int quantity){
+        this.id = id;
+        this.product = product;
+        this.price = product.getPrice();
+        this.quantity = quantity;
+    }
+
+    public OrderItem(Integer id, Product product, BigDecimal price, int quantity){
+        this.id = id;
+        this.product = product;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public Integer getId() {
         return id;
     }
