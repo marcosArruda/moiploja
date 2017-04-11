@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MoipController {
 
     @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
     private OrderService orderService;
     @Autowired
     private ConfirmationService confirmationService;
