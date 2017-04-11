@@ -18,10 +18,11 @@
 							<h2>Pedido não encontrado</h2>
 						</div>
 						<div th:if="${order}" >
-							<h2>O seu pedido foi feio com sucesso.</h2>
+							<h2>O seu pedido está em andamento...</h2>
 							<h2>
 								Número do Pedido : <span th:text="${order.orderNumber}">Number</span>
 							</h2>
+							<h2 id="status_pedido">Aguardando...</h2>
 							<table class="table">
 								<thead>
 									<tr>
@@ -52,7 +53,7 @@
 
                                             <tr class="order-total">
                                                 <th>Total do Pedido</th>
-                                                <td><strong><span class="amount" th:text="${order.totalAmount}">£15.00</span></strong> </td>
+                                                <td><strong><span class="amount" th:text="${order.totalAmount}">15.00</span></strong> </td>
                                             </tr>
 
                                         </tfoot>
@@ -63,5 +64,6 @@
 			</div>
 		</div>
 	</div>
+	<script th:src="@{'/assets/js/orderconfirmation.js'}"></script>
 </body>
 </html>
