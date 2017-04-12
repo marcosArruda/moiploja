@@ -6,6 +6,7 @@ package com.marcos.moiploja.entities;
 import com.marcos.moiploja.entities.dto.Cart;
 import com.marcos.moiploja.entities.dto.LineItem;
 import com.marcos.moiploja.entities.dto.OrderDTO;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -52,7 +53,7 @@ public class Order implements Serializable {
     private String ccHash;
 
     @Column(nullable = true, unique = false)
-    private boolean cupom;
+    private Boolean cupom;
 
     public Order() {
         this.items = new HashSet<OrderItem>();
@@ -62,7 +63,15 @@ public class Order implements Serializable {
 
     public static Order buildOrder(OrderDTO order, Cart cart){
         final Order newOrder = new Order();
-        newOrder.setCustomer(cart.getCustomer());
+        final Customer customer = new Customer();
+
+        customer.setEmail(order.getEmailId());
+        customer.setFirstName(order.getFirstName());
+        customer.setLastName(order.getLastName());
+        customer.setPhone(order.getPhone());
+        customer.setPassword("");
+
+        newOrder.setCustomer(customer);
         Address address = new Address();
         address.setAddressLine1(order.getAddressLine1());
         address.setAddressLine2(order.getAddressLine2());
@@ -195,11 +204,11 @@ public class Order implements Serializable {
         this.ccHash = ccHash;
     }
 
-    public boolean isCupom() {
+    public Boolean isCupom() {
         return cupom;
     }
 
-    public void setCupom(boolean cupom) {
+    public void setCupom(Boolean cupom) {
         this.cupom = cupom;
     }
 }

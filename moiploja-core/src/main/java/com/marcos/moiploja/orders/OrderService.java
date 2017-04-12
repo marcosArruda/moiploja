@@ -10,6 +10,7 @@ import br.com.moip.exception.ValidationException;
 import com.marcos.moiploja.MoiplojaException;
 import com.marcos.moiploja.common.services.EmailService;
 import com.marcos.moiploja.common.services.MLLogger;
+import com.marcos.moiploja.customers.CustomerService;
 import com.marcos.moiploja.entities.*;
 import com.marcos.moiploja.entities.dto.Cart;
 import com.marcos.moiploja.entities.dto.OrderDTO;
@@ -37,18 +38,21 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    CustomerService customerService;
+
     public Order processOrder(OrderDTO order, Cart cart) throws MoiplojaException {
         logger.info("Trying to process order processOrder()");
         final Order newOrder = Order.buildOrder(order, cart);
 
+        Customer cust = customerService.getCustomerByEmail("customer1@fake.com");
+        newOrder.setCustomer(cust);
         newOrder.setOrderNumber(String.valueOf(System.currentTimeMillis()));
-
 
         //doing MOIP interaction
         try {
             br.com.moip.resource.Order moipOrder = moipService.createOrder(newOrder);
             newOrder.setOrderNumber(moipOrder.getId());
-            orderRepository.save(newOrder);
             br.com.moip.resource.Payment moipPayment = moipService.createPayment(moipOrder, newOrder);
         }catch (UnauthorizedException unEx){
             throw new MoiplojaException("Movimentação MOIP não autorizada.", unEx);
@@ -60,8 +64,10 @@ public class OrderService {
             throw new MoiplojaException("Excessão genérica MOIP.", moipException);
         }
 
-        this.sendOrderConfirmationEmail(newOrder);
-        return newOrder;
+        final Order savedOrder = orderRepository.save(newOrder);
+        this.sendOrderConfirmationEmail(savedOrder);
+
+        return savedOrder;
     }
 
     public Order findOrder(String orderNumber) {
@@ -74,6 +80,7 @@ public class OrderService {
     }
 
     public Order updateOrder(Order order) {
+        System.out.println("updateOrder()");
         Order o = findOrder(order.getOrderNumber());
         o.setStatus(order.getStatus());
         Order savedOrder = orderRepository.save(o);

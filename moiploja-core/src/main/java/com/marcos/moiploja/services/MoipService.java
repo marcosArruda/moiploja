@@ -40,9 +40,8 @@ public class MoipService {
     public Order createOrder(com.marcos.moiploja.entities.Order lojaOrder){
         if(api == null)
             createAPI();
-
-        OrderRequest orderRequest = new OrderRequest().ownId(lojaOrder.getId().toString());
         Customer cust = lojaOrder.getCustomer();
+        OrderRequest orderRequest = new OrderRequest().ownId(lojaOrder.getOrderNumber());
         Address deliveryAddress = lojaOrder.getDeliveryAddress();
         Set<OrderItem> itens = lojaOrder.getItems();
 

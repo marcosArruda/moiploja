@@ -41,7 +41,6 @@ public class OrderController extends MoiplojaSiteBaseController {
             model.addAttribute("cart", cart);
             return "checkout";
         }
-        
         Order createdOrder = null;
         try {
             createdOrder = orderService.processOrder(order, cart);

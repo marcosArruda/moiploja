@@ -10,7 +10,6 @@ jQuery(document).ready(function($){
 	        dataType: "json",
 	        contentType: "application/json",
 	        complete: function(responseData, status, xhttp){
-	            alert("status updateCartItemCount: "+ status);
 	        	$('#cart-item-count').text('('+responseData.responseJSON.count+')');
 	        }
 	    });
@@ -25,7 +24,6 @@ jQuery(document).ready(function($){
 	        contentType: "application/json",
 	        data : '{"sku":"'+ sku +'"}"',
 	        complete: function(responseData, status, xhttp){
-	            alert("status addItemToCart: "+ status);
 	        	updateCartItemCount();
 	        }
 	    }); 

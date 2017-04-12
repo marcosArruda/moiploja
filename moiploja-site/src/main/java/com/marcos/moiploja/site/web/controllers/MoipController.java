@@ -31,7 +31,7 @@ public class MoipController {
     @RequestMapping(value = "/response", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void response(@RequestBody ResponseDTO response) throws InterruptedException {
-
+        System.out.println("Got Response from MOIP: "+response.getResource().getPayment().getStatus());
         PaymentDTO payment = response.getResource().getPayment();
 
         Order order = orderService.findOrder(payment.getId());

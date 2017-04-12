@@ -33,6 +33,7 @@ public class ConfirmationService {
     }
 
     public void send(PaymentDTO payment) {
+        System.out.println("Sending message to customer: "+payment.getStatus());
         WebSocketEvent event = new WebSocketEvent();
         event.setPaymentId(payment.getId());
         event.setStatus(getStatus(payment.getStatus()));
