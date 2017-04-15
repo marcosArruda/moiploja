@@ -77,10 +77,6 @@ public class OrderController extends MoiplojaAdminBaseController {
 
             // Create the HTML body using Thymeleaf
             final String htmlContent = this.templateEngine.process("order-status-update-email", ctx);
-
-            emailService.sendEmail(order.getCustomer().getEmail(),
-                    "QuilCartCart - Order Status Update",
-                    htmlContent);
         } catch (MoiplojaException e) {
             logger.error(e);
         }

@@ -114,7 +114,7 @@ public class UserAuthController extends MoiplojaAdminBaseController {
             // Create the HTML body using Thymeleaf
             final String htmlContent = this.templateEngine.process("forgot-password-email", ctx);
 
-            emailService.sendEmail(email, getMessage(LABEL_PASSWORD_RESET_EMAIL_SUBJECT), htmlContent);
+            //emailService.sendEmail(email, getMessage(LABEL_PASSWORD_RESET_EMAIL_SUBJECT), htmlContent);
         } catch (MoiplojaException e) {
             logger.error(e);
         }

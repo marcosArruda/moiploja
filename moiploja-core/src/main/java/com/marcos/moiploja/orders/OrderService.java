@@ -66,7 +66,7 @@ public class OrderService {
         }
 
         final Order savedOrder = orderRepository.save(newOrder);
-        this.sendOrderConfirmationEmail(savedOrder);
+        //this.sendOrderConfirmationEmail(savedOrder);
 
         return savedOrder;
     }
