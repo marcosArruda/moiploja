@@ -59,6 +59,7 @@ public class OrderController extends MoiplojaSiteBaseController {
     public String showOrderConfirmation(@RequestParam(value = "orderNumber") String orderNumber, Model model) {
         Order order = orderService.findOrder(orderNumber);
         model.addAttribute("order", order);
+        model.addAttribute("paymentId", order.getPayment().getMoipId());
         return "orderconfirmation";
     }
 

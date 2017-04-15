@@ -2,12 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-	layout:decorator="layout/mainLayout">
+	layout:decorator="layout/mainOrderConfirmationLayout">
 <head>
 <title>Order Confirmation</title>
 </head>
 <body>
 	<div layout:fragment="content">
+		<script th:inline="javascript">
+	/*<![CDATA[*/
+		var the_payment_id = [[${order.payment.moipId}]];
+	/*]]>*/
+	</script>
 		<div class="single-product-area">
 			<div class="zigzag-bottom"></div>
 			<div class="container">
@@ -18,11 +23,13 @@
 							<h2>Pedido não encontrado</h2>
 						</div>
 						<div th:if="${order}" >
-							<h2>O seu pedido está em andamento...</h2>
 							<h2>
 								Número do Pedido : <span th:text="${order.orderNumber}">Number</span>
 							</h2>
-							<h2 id="status_pedido">Aguardando...</h2>
+							<h2>
+								Número do Pagamento Moip : <span th:text="${order.payment.moipId}">Number</span>
+							</h2>
+							<h2 id="status_pedido">O seu pedido está em andamento... em alguns segundos será atualizado.</h2>
 							<table class="table">
 								<thead>
 									<tr>
@@ -64,6 +71,5 @@
 			</div>
 		</div>
 	</div>
-	<script th:src="@{'/assets/js/orderconfirmation.js'}"></script>
 </body>
 </html>

@@ -54,6 +54,7 @@ public class OrderService {
             br.com.moip.resource.Order moipOrder = moipService.createOrder(newOrder);
             newOrder.setOrderNumber(moipOrder.getId());
             br.com.moip.resource.Payment moipPayment = moipService.createPayment(moipOrder, newOrder);
+            newOrder.getPayment().setMoipId(moipPayment.getId());
         }catch (UnauthorizedException unEx){
             throw new MoiplojaException("Movimentação MOIP não autorizada.", unEx);
         }catch (ValidationException valEx){

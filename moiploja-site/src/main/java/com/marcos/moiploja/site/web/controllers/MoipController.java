@@ -42,4 +42,17 @@ public class MoipController {
 
         confirmationService.send(payment);
     }
+
+//    @RequestMapping(value = "/response", method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.OK)
+//    public void responseString(@RequestBody String response) throws InterruptedException {
+//        System.out.println("Got Response from MOIP: "+response);
+//    }
+
+    @RequestMapping(value = "/response", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public String response() throws InterruptedException {
+        System.out.println("Got Response from MOIP: " + "GET");
+        return "Got Response from MOIP: " + "GET";
+    }
 }

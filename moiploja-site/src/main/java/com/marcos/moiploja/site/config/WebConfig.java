@@ -81,6 +81,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 SecurityCollection collection = new SecurityCollection();
                 collection.addPattern("/*");
                 securityConstraint.addCollection(collection);
+
+                SecurityConstraint safeSecurityContraint = new SecurityConstraint();
+                safeSecurityContraint.setUserConstraint("NONE");
+                SecurityCollection safeCollection = new SecurityCollection();
+                safeCollection.addPattern("/moip/*");
+                safeSecurityContraint.addCollection(safeCollection);
+
+                context.addConstraint(safeSecurityContraint);
                 context.addConstraint(securityConstraint);
             }
         };
@@ -92,7 +100,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     private Connector initiateHttpConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
-        connector.setPort(8080);
+        connector.setPort(8444);
         connector.setSecure(false);
         connector.setRedirectPort(serverPort);
 

@@ -24,6 +24,9 @@ public class Payment implements Serializable {
     @Column(name = "cc_hash", nullable = true, unique = false, length = 2000)
     private String ccHash;
 
+    @Column(name="moip_id", nullable = true, unique = true)
+    private String moipId;
+
     public Payment(){}
     public Payment(Integer id, String ccHash){
         this.id = id;
@@ -73,5 +76,13 @@ public class Payment implements Serializable {
 
     public void setCcHash(String ccHash) {
         this.ccHash = ccHash;
+    }
+
+    public String getMoipId() {
+        return moipId;
+    }
+
+    public void setMoipId(String moipId) {
+        this.moipId = moipId;
     }
 }

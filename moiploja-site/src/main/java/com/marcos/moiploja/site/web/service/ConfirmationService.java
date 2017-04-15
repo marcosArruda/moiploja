@@ -33,7 +33,7 @@ public class ConfirmationService {
     }
 
     public void send(PaymentDTO payment) {
-        System.out.println("Sending message to customer: "+payment.getStatus());
+        System.out.println("FIRST SENDING: "+payment.getStatus());
         WebSocketEvent event = new WebSocketEvent();
         event.setPaymentId(payment.getId());
         event.setStatus(getStatus(payment.getStatus()));
@@ -60,14 +60,15 @@ public class ConfirmationService {
     }
 
     private void send(String paymentId) {
+        System.out.println("SENDING VIA WEBSOCKET: " + paymentId);
         if (subscriberRepository.findOne(paymentId) != null) {
             List<WebSocketEvent> byPaymentId = websocketEventRepository.findByPaymentId(paymentId);
             byPaymentId.stream()
                     .filter((ev) -> !ev.isSent())
                     .forEach((ev) -> {
-                        messagingTemplate.convertAndSend("/topic/pay/" + paymentId, ev.getStatus().name());
                         ev.setSent(true);
                         websocketEventRepository.save(ev);
+                        messagingTemplate.convertAndSend("/topic/pay/" + paymentId, ev.getStatus().name());
                     });
         }
     }

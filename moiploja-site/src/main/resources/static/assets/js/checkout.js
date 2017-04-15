@@ -10,11 +10,11 @@ function prepareCCHash(){
 
     if(cc.isValid()){
         $("#ccHash").val(cc.hash());
-        alert("O Hash: " + $("#ccHash").val());
+        //alert("O Hash: " + $("#ccHash").val());
         return true;
     }else{
         $("#ccHash").val('INVALID');
-        alert("Hash invalido");
+        //alert("Hash invalido");
         return false; //dont submit the form;
     }
 
