@@ -21,6 +21,7 @@ Agora você já pode acessar o site Moiploja(a loja propriamente) no url https:/
 A arquitetura de código segue o classico padrão mvc do Spring framework. Utilizei Websocket para a atualização assíncrona
 do status do pagamento em tempo real;
 
+O Deploy foi realizado em uma VPS que possuo. Utilizei o script deploy.sh que criei para realizar esse procedimento.
 
 
 TODO:
