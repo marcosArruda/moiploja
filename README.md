@@ -18,7 +18,7 @@ Agora você já pode acessar o site Moiploja(a loja propriamente) no url https:/
 
 **A aplicação estará constantemente funcionando em https://marcosarruda.info:8443/**
 
-A arquitetura de código segue o classico padrão mvc do Spring framework. Utilizei Websocket para a atualização asincrona
+A arquitetura de código segue o classico padrão mvc do Spring framework. Utilizei Websocket para a atualização assincrona
 do status do pagamento em tempo real;
 
 
