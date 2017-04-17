@@ -62,7 +62,7 @@ public class OrderController extends MoiplojaAdminBaseController {
     public String updateOrder(@ModelAttribute("order") Order order, BindingResult result,
                               Model model, RedirectAttributes redirectAttributes) {
         Order persistedOrder = orderService.updateOrder(order);
-        this.sendOrderStatusUpdateEmail(persistedOrder);
+        //this.sendOrderStatusUpdateEmail(persistedOrder);
         logger.debug("Updated order with orderNumber : {}", persistedOrder.getOrderNumber());
         redirectAttributes.addFlashAttribute("info", "Order updated successfully");
         return "redirect:/orders";

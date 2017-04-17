@@ -59,11 +59,14 @@ public class Order implements Serializable {
         this.items = new HashSet<OrderItem>();
         this.status = OrderStatus.NEW;
         this.createdOn = new Date();
+        this.cupom = false;
     }
 
     public static Order buildOrder(OrderDTO order, Cart cart){
         final Order newOrder = new Order();
         final Customer customer = new Customer();
+
+        newOrder.setCupom(cart.isCupom());
 
         customer.setEmail(order.getEmailId());
         customer.setFirstName(order.getFirstName());
@@ -112,6 +115,7 @@ public class Order implements Serializable {
         newOrder.setCcHash(order.getCcHash());
         System.out.println("A HASH É: "+ order.getCcHash());
         newOrder.setPayment(payment);
+        newOrder.getTotalAmount();
         return newOrder;
     }
 
@@ -192,6 +196,10 @@ public class Order implements Serializable {
         BigDecimal amount = BigDecimal.ZERO;
         for (OrderItem item : items) {
             amount = amount.add(item.getSubTotal());
+        }
+
+        if(cupom) {
+            amount = amount.multiply(BigDecimal.valueOf(0.95)).setScale(2);
         }
         return amount;
     }

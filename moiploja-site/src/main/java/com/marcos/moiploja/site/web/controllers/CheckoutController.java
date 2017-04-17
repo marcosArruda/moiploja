@@ -30,6 +30,20 @@ public class CheckoutController extends MoiplojaSiteBaseController {
         order.setCvv("123");
         model.addAttribute("order", order);
         Cart cart = getOrCreateCart(request);
+        cart.setCupom(false);
+        model.addAttribute("cart", cart);
+        return "checkout";
+    }
+
+    @RequestMapping(value = "/checkout_add_cupom", method = RequestMethod.GET)
+    public String checkoutAddCupom(HttpServletRequest request, Model model) {
+        OrderDTO order = new OrderDTO();
+        order.setCcNumber("5555666677778884");
+        order.setCvv("123");
+        model.addAttribute("order", order);
+
+        Cart cart = getOrCreateCart(request);
+        cart.setCupom(true);
         model.addAttribute("cart", cart);
         return "checkout";
     }

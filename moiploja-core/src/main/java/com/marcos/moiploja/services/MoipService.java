@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -45,8 +46,14 @@ public class MoipService {
         Address deliveryAddress = lojaOrder.getDeliveryAddress();
         Set<OrderItem> itens = lojaOrder.getItems();
 
-        itens.forEach((it)->orderRequest.addItem(it.getProduct().getName(),
-                it.getQuantity(), "Descricao", it.getPrice().movePointRight(2).intValue()));
+        if(lojaOrder.isCupom()){//with cupom
+            itens.forEach((it)->orderRequest.addItem(it.getProduct().getName(),
+                    it.getQuantity(), "Descricao", it.getPrice().multiply(BigDecimal.valueOf(0.95)).setScale(2).movePointRight(2).intValue()));
+        }else{//without cupom
+            itens.forEach((it)->orderRequest.addItem(it.getProduct().getName(),
+                    it.getQuantity(), "Descricao", it.getPrice().movePointRight(2).intValue()));
+        }
+
 
         return api.order().create(orderRequest.customer(new CustomerRequest()
                 .ownId(cust.getFirstName())

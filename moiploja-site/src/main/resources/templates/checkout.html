@@ -58,6 +58,15 @@
                                                 </td>
                                             </tr>
 
+                                            <tr class="order-total">
+                                                <th><a type="button"
+                                                       id="add_cupom_bt"
+                                                       th:disabled="${cart.cupom}"
+                                                       th:href="@{/checkout_add_cupom}"
+                                                       class="button">Adicionar Cupom</a></th>
+                                                <td><strong><span class="amount" th:text="${cart.cupom}">£15.00</span></strong> </td>
+                                            </tr>
+
 
                                             <tr class="order-total">
                                                 <th>Total do Pedido</th>

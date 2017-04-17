@@ -21,11 +21,21 @@ public class Cart {
     private Address deliveryAddress;
     private Payment payment;
 
+    private boolean cupom;
+
     public Cart() {
         items = new ArrayList<LineItem>();
         customer = new Customer();
         deliveryAddress = new Address();
         payment = new Payment();
+    }
+
+    public void setCupom(boolean cupom){
+        this.cupom = cupom;
+    }
+
+    public boolean isCupom(){
+        return this.cupom;
     }
 
 
@@ -86,6 +96,10 @@ public class Cart {
         for (LineItem lineItem : items) {
             amount = amount.add(lineItem.getSubTotal());
         }
+        if(isCupom()){
+            amount = amount.multiply(BigDecimal.valueOf(0.95));
+        }
+
         return amount;
     }
 
