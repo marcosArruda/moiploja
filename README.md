@@ -9,7 +9,7 @@ cd moiploja
 
 moiploja> mvn clean install
 
-moiploja> cd jcart-site
+moiploja> cd moiploja-site
 
 moiploja-site> mvn spring-boot:run
 
