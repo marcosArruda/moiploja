@@ -97,7 +97,7 @@ public class Cart {
             amount = amount.add(lineItem.getSubTotal());
         }
         if(isCupom()){
-            amount = amount.multiply(BigDecimal.valueOf(0.95));
+            amount = amount.multiply(BigDecimal.valueOf(0.95)).setScale(2);
         }
 
         return amount;
